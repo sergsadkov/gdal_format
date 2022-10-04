@@ -85,7 +85,7 @@ def listFiles(folder, extensions=None, target_path=None, miss_path=None):
     return files
 
 
-def tempPath(name='tmp', ext='', temp_dir=__temp_dir):
+def tempPath(ext='', name='tmp', temp_dir=__temp_dir):
     i = 0
     temp_folder = f'{temp_dir}\\{i}'
     while os.path.exists(temp_folder):
