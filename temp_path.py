@@ -97,6 +97,29 @@ def tempPath(ext='', name='tmp', temp_dir=__temp_dir):
     return fullPath(temp_folder, name, ext)
 
 
+class TempPathsStorage(list):
+
+    def __init__(self, temp_dir=None):
+        if temp_dir is None:
+            self.dir = globals()['__temp_dir']
+        else:
+            self.dir = temp_dir
+        pass
+
+    def __del__(self):
+        for path in self:
+            if os.path.isfile(path):
+                if path.lower().endswith('.shp'):
+                    deleteSHP(path)
+                else:
+                    deleteFile(path)
+
+    def newTempPath(self, ext='', name='tmp'):
+        new_temp_path = tempPath(ext=ext, name=name, temp_dir=self.dir)
+        self.append(new_temp_path)
+        return new_temp_path
+
+
 # ----------------------------------------------------------------------------
 
 
