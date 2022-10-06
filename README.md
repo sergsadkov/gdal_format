@@ -5,24 +5,24 @@ It is inspired with my 3 years of working as a GIS Developer in Python when I fa
 
 Most of GDAL options can be written into raster_options.RasterOptions() class like this:
 
-  options = RasterOptions(COMPRESS='DEFLATE', ZLEVEL=9, PREDICTOR=2, NUM_THREADS='ALL_CPUS')
+    options = RasterOptions(COMPRESS='DEFLATE', ZLEVEL=9, PREDICTOR=2, NUM_THREADS='ALL_CPUS')
 
 Some raster parameters may be set through new options like:
 
-  options = RasterOptions(PixelSize=100, DataType=1, NoDataValue=0)
+    options = RasterOptions(PixelSize=100, DataType=1, NoDataValue=0)
 
 Also some special options are used, like:
 
-  __preserve_original_pixel_size - if True pixel size is not changing when transformed between two projective CRS
+__preserve_original_pixel_size - if True pixel size is not changing when transformed between two projective CRS
 
-  __wrap - force using gdal_warp in saveRaster()
+__wrap - force using gdal_warp in saveRaster()
 
-  __vector_clipper - used for clipping raster files with vector to make sure the target raster extent corresponds to the intersection between the source raster and vector. Must contain vector.VectorClipper(<path_to_the_cutline>) object. If raster is within vector no crop operation is done.
+__vector_clipper - used for clipping raster files with vector to make sure the target raster extent corresponds to the intersection between the source raster and vector. Must contain vector.VectorClipper(<path_to_the_cutline>) object. If raster is within vector no crop operation is done.
 
 The key functions to manipulate raster are in save_data.py file and they are the following:
 
-  warpRaster(rpath, tpath, **options) -- warp_raster with the new options
+    warpRaster(rpath, tpath, **options) -- warp_raster with the new options
   
-  translateRaster(rpath, tpath, **options) -- translate_raster with the new options
+    translateRaster(rpath, tpath, **options) -- translate_raster with the new options
   
-  saveRaster(rpath, tpath, **options) -- uses translate_raster and warp_raster to make the very raster file you want (make sure __warp=True to use gdal_warp)
+    saveRaster(rpath, tpath, **options) -- uses translate_raster and warp_raster to make the very raster file you want (make sure __warp=True to use gdal_warp)
