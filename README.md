@@ -42,3 +42,5 @@ Example:
     options.makeVectorClipper(vector_path=path_clip)
     
     saveRaster(path_in, path_out, **options)
+
+Creates a new raster file reprojected to EPSG:3857, with PixelSize=30m, and clipped with r'c:\test\clip.shp'
