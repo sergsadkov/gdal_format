@@ -38,9 +38,9 @@ Example:
     path_out = r'c:\test\raster_out.tif'
     path_clip = r'c:\test\clip.shp'
     
-    options = RasterOptions(EPSG=3857, PixelSize=30, NUM_THREADS='ALL_CPUS', __warp=True, overwrite=True)
+    options = RasterOptions(EPSG=3857, PixelSize=30, Bands=[3,2,1], NUM_THREADS='ALL_CPUS', __warp=True, overwrite=True)
     options.makeVectorClipper(vector_path=path_clip)
     
     saveRaster(path_in, path_out, **options)
 
-Creates a new raster file reprojected to EPSG:3857, with PixelSize=30m, and clipped with r'c:\test\clip.shp'
+Creates a new raster file with 3 bands corresponding to bands 3,2,1 of the original raster, reprojected to EPSG:3857, with PixelSize=30m, and clipped with r'c:\test\clip.shp'
