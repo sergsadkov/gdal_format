@@ -178,11 +178,9 @@ class VectorClipper(object):
                 intersection_geometry = geometryCoordinateTransformation(
                     intersection_geometry, self.srs, end_srs)
             clip_geometry_path = tempPath(ext='shp', name='tmp')
-            print(clip_geometry_path, intersection_geometry.ExportToWkt()[:100])
+
             geometryShapefile(intersection_geometry, clip_geometry_path,
                               srs=self.srs)
-            import os
-            print(os.path.exists(clip_geometry_path))
 
             result = {'crop_to_cutline': True,
                       'cutline': clip_geometry_path,

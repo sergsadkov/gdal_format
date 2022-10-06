@@ -56,7 +56,7 @@ def saveRaster(rpath, tpath, **options):
             raise Exception('File already exists: ' + tpath)
 
     if options.get('__warp'):
-        if checkBandsMatch(rpath, options.get('Bands')) and \
+        if checkBandsMatch(gdal.Open(rpath), options.get('Bands')) and \
                 (not any([(key in options) for key in
                           ['mask', 'scale', 'exponent', 'colorinterp']])):
             warpRaster(rpath, tpath, **options)

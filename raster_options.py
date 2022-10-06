@@ -2,6 +2,7 @@ import re
 import math
 from copy import copy
 from osgeo import gdal, ogr, osr
+from vector import VectorClipper
 
 
 # Does not support the following gdal_translate options:
@@ -13,11 +14,6 @@ from osgeo import gdal, ogr, osr
 
 
 __default = {
-        'RasterSize_error': 0.01,
-        'PixelSize_error': 0.01,
-        'NoDataValue_error': 0.01,
-        'DataMinimum_error': 0.01,
-        'DataMaximum_error': 0.01,
         '__preserve_original_pixel_size': True,
         '__vector_clipper': None,
         '__wrap': False,
@@ -298,6 +294,15 @@ class RasterOptions(dict):
                 raise Exception('Unknown srs format:', srs)
 
 
+    def makeVectorClipper(self, vector_path=None):
+
+        if vector_path is None:
+            vector_path = self.get('cutline')
+
+        if vector_path is not None:
+            self['__vector_clipper'] = VectorClipper(vector_path)
+
+
     def getGDALoptions(self, gdalf):
 
         options = []
@@ -342,7 +347,8 @@ class RasterOptions(dict):
         options = self.getGDALoptions(gdalf)
 
         if self.get('DataType') is not None:
-            options.append(f' -ot {__gdal_data_type[self.get("DataType", 0)]}')
+            options.append(
+                f' -ot {globals()["__gdal_data_type"][self.get("DataType", 0)]}')
 
         if self.get('Method') is not None:
             options.append(f' -r {self["Method"]}')
