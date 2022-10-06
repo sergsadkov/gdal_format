@@ -18,9 +18,9 @@ __default = {
         'NoDataValue_error': 0.01,
         'DataMinimum_error': 0.01,
         'DataMaximum_error': 0.01,
-        '__preserve_original_pixel_size__': True,
+        '__preserve_original_pixel_size': True,
         '__vector_clipper': None,
-        '__force_wrap': False,
+        '__wrap': False,
     }
 
 __gdal_data_type = ['Unknown', 'Byte', 'UInt16', 'Int16', 'UInt32', 'Int32',
@@ -64,6 +64,10 @@ __gdal_to = ['RPC_HEIGHT', 'RPC_HEIGHT_SCALE', 'RPC_DEM',
 
 # See details on https://gdal.org/drivers/raster/gtiff.html
 __gdal_oo = ['NUM_THREADS', 'GEOREF_SOURCES', 'SPARSE_OK']
+
+
+__gdal_options = {'creation': __gdal_co, 'transform': __gdal_to,
+                'warp': __gdal_wo, 'open': __gdal_oo}
 
 
 class GDALoptions:
@@ -231,9 +235,8 @@ def getPercentile(histogram, min=0.02, max=0.98):
 
 class RasterOptions(dict):
 
-
     def __init__(self, *args, **kwargs):
-        self.update(__default)
+        self.update(globals()['__default'])
         for arg in args:
             self.update(arg)
         self.update(**kwargs)
@@ -323,10 +326,7 @@ class RasterOptions(dict):
 
         options = []
 
-        gdal_options = {'creation': __gdal_co,
-                        'transform': __gdal_to,
-                        'warp': __gdal_wo,
-                        'open': __gdal_oo}.get(type, [])
+        gdal_options = globals()['__gdal_options'].get(type, [])
 
         for option in self:
             option_check = option.upper()
